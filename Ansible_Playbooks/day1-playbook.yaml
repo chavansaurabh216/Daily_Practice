@@ -1,0 +1,8 @@
+# This is the day 1 playbook that will ping the given host
+- name: Day-1 Playbook
+  hosts: localhost
+  gather_facts: false
+  become: true
+  tasks:
+  - name: Ping the localhost
+    ping:

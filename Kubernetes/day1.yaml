@@ -1,0 +1,13 @@
+# Create a pod with the following specifications:
+apiVersion: v1
+kind: Pod
+metadata:
+  name: day1-pod
+  labels:
+    app: day1-pod 
+spec:
+  containers:
+  - name: day1-container
+    image: nginx:latest
+    ports:
+    - containerPort: 80

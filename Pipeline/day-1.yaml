@@ -1,0 +1,51 @@
+# This is a YAML file that contains the pipeline definition for the Azure DevOps pipeline.
+
+# This will trigger the pipeline on the following included branches
+triggers:
+  branches:
+    include:
+    - main
+    - 1.0.x
+    - Release*
+
+# This are the stages that will be executed in the pipeline
+stages: 
+- stage: Dev  # This is the development stage
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/1.0.x'))   # This condition will only run the stage if the build is successful and the source branch is 1.0.x
+  variables:  # These are the variables that will be used in the stage
+  - name: sonarqube
+    value: 'true'
+  - name: namespace
+    value: 'dev'
+
+  # These are the jobs that will be executed in the stage
+  jobs: 
+  - job: Build
+    pool: $(pool_name)
+    steps:
+    - template: templates/build.yaml
+
+  - job: Deploy
+    pool: $(pool_name)
+    condition: succeeded('Build')
+    steps:
+    - template: templates/deploy.yaml
+
+- stage: QA
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/1.0.x'))
+  variables:
+  - name: sonarqube
+    value: 'true'
+  - name: namespace
+    value: 'qa'
+  
+  jobs:
+  - job: Build
+    pool: $(pool_name)
+    steps:
+    - template: templates/build.yaml
+
+  - job: Deploy
+    pool: $(pool_name)
+    steps:
+    - template: templates/deploy.yaml
