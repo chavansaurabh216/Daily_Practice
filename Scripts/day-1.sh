@@ -7,7 +7,7 @@ echo "Welcome to the world of DevOps"
 echo "This script will create a file and verify the file is created or not"
 
 # Read the input from the user
-read -p "Enter your name: " file_name
+read -p "Enter your file name: " file_name
 
 # Create a file using the input provided by the user in above step
 touch $file_name
