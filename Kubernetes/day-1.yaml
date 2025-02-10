@@ -2,12 +2,12 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: day1-pod
+  name: day-1-pod
   labels:
-    app: day1-pod 
+    app: day-1-pod 
 spec:
   containers:
-  - name: day1-container
+  - name: day-1-container
     image: nginx:latest
     ports:
     - containerPort: 80

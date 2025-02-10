@@ -1,0 +1,11 @@
+# This playbook will install nginx on the localhost with the help of the apt module.
+
+- name: day-2 Playbook
+  hosts: localhost
+  gather_facts: false
+  become: true
+  tasks:
+  - name: Install nginx
+    apt:
+      name: nginx
+      state: present

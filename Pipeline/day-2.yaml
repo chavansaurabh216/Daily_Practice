@@ -1,0 +1,25 @@
+triggers:
+  branches:
+    include::
+    - main
+    - 1.0.x
+    - Release*
+
+stages:
+- stage: Dev
+  condition: or(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/1.0.x'))
+  variables:
+  - name: namespace
+    value: 'dev'
+  
+  jobs:
+  - job: Build
+    pool: devAgentPool
+    steps:
+    - template: templates/build.yaml
+
+  - job: Deploy
+    pool: devAgentPool
+    condition: succeeded('Build')
+    steps:
+    - template: templates/deploy.yaml
